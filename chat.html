@@ -110,7 +110,7 @@
         }
 
         .bubble--think {
-            color: #004444;
+            color: #999999;
         }
     </style>
 
@@ -172,12 +172,12 @@
             socket.emit('nick', val);
         }
 
-        else if(val.substring(0, 6) === '/oops ') {
-
+        else if(val.substring(0, 5) === '/oops') {
+            socket.emit('oops');
         }
 
         else {
-            socket.emit('chat message', val);
+            socket.emit('msg', val);
         }
 
         $('#m').val('');
@@ -185,10 +185,11 @@
         return false;
     });
 
-    socket.on('chat message', function(msg){
+    socket.on('msg', function(msg){
         var li_message = $('<li class="bubble">');
 
-        li_message.text(msg.text)
+        li_message.data('userid', msg.user.id);
+        li_message.text(msg.text);
 
         if(msg.user.id != user.id){
             li_message.addClass('bubble--alt');
@@ -202,6 +203,20 @@
     });
 
 
+
+    socket.on('oops', function(_user){
+        
+        var msgs = $("li").get().reverse();
+        var removed = false;
+
+        for(var i = 0; i < msgs.length && removed != true; i++){
+            var li = $(msgs[i]);
+            if(li.data('userid') === _user.id){
+                li.remove();
+                removed = true;
+            }
+        }
+    });
 </script>
 
 </body>

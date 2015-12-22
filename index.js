@@ -21,7 +21,7 @@ io.on('connection', function(socket){
 
     io.to(socket.id).emit('user', user);
 
-    socket.on('chat message', function(_msg){
+    socket.on('msg', function(_msg){
 
         var mode = 'default';
 
@@ -37,15 +37,19 @@ io.on('connection', function(socket){
         };
 
 
-        io.emit('chat message', msg);
+        io.emit('msg', msg);
     });
 
     socket.on('nick', function(_nick){
         var user = users[socket.id];
         user.nickname = _nick.substring(6, _nick.length);
-        io.emit('nick_changed', users[socket.id]);
+        io.emit('nick_changed', user);
     });
 
+    socket.on('oops', function(){
+        var user = users[socket.id];
+        io.emit('oops', user);
+    })
 
 
 });
