@@ -8,7 +8,7 @@
 
         body {
         background-color: #eee;
-        color: #222;
+        color: #000000;
         font: 0.8125em/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
@@ -108,6 +108,10 @@
         left: auto;
         right: -5px;
         }
+
+        .bubble--think {
+            color: #004444;
+        }
     </style>
 
     <style>
@@ -168,10 +172,6 @@
             socket.emit('nick', val);
         }
 
-        else if(val.substring(0, 7) === '/think '){
-
-        }
-
         else if(val.substring(0, 6) === '/oops ') {
 
         }
@@ -186,11 +186,19 @@
     });
 
     socket.on('chat message', function(msg){
-        if(msg.user.id === user.id){
-            $('#messages').append($('<li class="bubble">').text(msg.text));
-        }else{
-            $('#messages').append($('<li class="bubble bubble--alt">').text(msg.text));
+        var li_message = $('<li class="bubble">');
+
+        li_message.text(msg.text)
+
+        if(msg.user.id != user.id){
+            li_message.addClass('bubble--alt');
         }
+
+        if(msg.mode === 'think'){
+            li_message.addClass('bubble--think');
+        }
+
+        $('#messages').append(li_message);
     });
 
 

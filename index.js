@@ -1,5 +1,6 @@
 
 var app = require('express')();
+var _ = require('lodash');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -20,12 +21,22 @@ io.on('connection', function(socket){
 
     io.to(socket.id).emit('user', user);
 
-    socket.on('chat message', function(_msg, _mode){
+    socket.on('chat message', function(_msg){
+
+        var mode = 'default';
+
+        if(_.startsWith(_msg, '/think ')){
+            mode = 'think';
+            _msg = _msg.replace('/think ', '');
+        }
+
         var msg = {
           user: users[socket.id],
           text: _msg,
-          mode: 'default' | _mode
+          mode: mode
         };
+
+
         io.emit('chat message', msg);
     });
 
