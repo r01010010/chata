@@ -1,0 +1,23 @@
+{
+  "name": "chata.io",
+  "version": "1.0.0",
+  "description": "Kodifying with love",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r01010010/chata.git"
+  },
+  "author": "Paloma Jiménez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r01010010/chata/issues"
+  },
+  "homepage": "https://github.com/r01010010/chata#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.7"
+  }
+}
