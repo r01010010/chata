@@ -147,7 +147,6 @@
 
     socket.on('user', function(_user){
         user = _user;
-        alert(user.id);
     });
 
     $('form').submit(function(){
@@ -156,10 +155,15 @@
         return false;
     });
 
-
     socket.on('chat message', function(msg){
-        $('#messages').append($('<li class="bubble">').text(msg));
+        if(msg.user.id === user.id){
+            $('#messages').append($('<li class="bubble">').text(msg.text));
+        }else{
+            $('#messages').append($('<li class="bubble bubble--alt">').text(msg.text));
+        }
     });
+
+    
 </script>
 
 </body>

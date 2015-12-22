@@ -20,11 +20,14 @@ io.on('connection', function(socket){
 
     io.to(socket.id).emit('user', user);
 
-    socket.on('chat message', function(msg){
+    socket.on('chat message', function(_msg){
+        var msg = {
+          user: users[socket.id],
+          text: _msg
+        };
         io.emit('chat message', msg);
     });
 
-    console.log(users);
 });
 
 http.listen(3000, function(){
