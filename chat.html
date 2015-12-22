@@ -114,13 +114,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font: 13px Helvetica, Arial; }
         form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-        form input { border: 0; padding: 10px; width: 85%; margin-right: .5%; }
+        form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; }
         form button { width: 9%; background-color: #999999; border: none; padding: 10px; }
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages li { padding: 5px 10px; }
         #header { background-color: #DDDDDD; text-align: center; padding: 5px;}
         #hisnickname { font-weight: bold;}
-        #mynickname { color: white; margin: 0px 5px; width: 20%;}
+        #mynickname { color: white; margin-right: .5%; width: 19%;}
     </style>
 
 </head>
@@ -149,9 +149,39 @@
         user = _user;
     });
 
+    socket.on('nick_changed', function(_user){
+        if(_user.id === user.id){
+            user = _user;
+            $('#mynickname').text(_user.nickname)
+        }else{
+            $('#hisnickname').text(_user.nickname)
+        }
+    });
+
+    // Todo: change this if's to server side and manage them with lodash _.startwith, so use always chat message event
+
     $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
+
+        var val = $('#m').val();
+
+        if(val.substring(0, 6) === '/nick '){
+            socket.emit('nick', val);
+        }
+
+        else if(val.substring(0, 7) === '/think '){
+
+        }
+
+        else if(val.substring(0, 6) === '/oops ') {
+
+        }
+
+        else {
+            socket.emit('chat message', val);
+        }
+
         $('#m').val('');
+
         return false;
     });
 
@@ -163,7 +193,7 @@
         }
     });
 
-    
+
 </script>
 
 </body>
