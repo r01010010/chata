@@ -142,11 +142,21 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     var socket = io();
+
+    var user = null;
+
+    socket.on('user', function(_user){
+        user = _user;
+        alert(user.id);
+    });
+
     $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
     });
+
+
     socket.on('chat message', function(msg){
         $('#messages').append($('<li class="bubble">').text(msg));
     });
