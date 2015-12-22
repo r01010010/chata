@@ -1,2 +1,2 @@
-# chata
+# chata.io
 Kodifying with love
